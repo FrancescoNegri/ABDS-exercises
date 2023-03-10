@@ -1,0 +1,89 @@
+\Exercise[number={3}]
+The \emph{articulograph} is a device which estimates the movements of the
+lips, jaw, etc. in the sagittal plane during speech production.
+The system uses four transmitting coils, positioned on the sagittal plane
+at the vertices of a square with side \(L\), each of which generates radially
+symmetrical magnetic fields, periodic with different frequencies \(f_i\),
+with \(i=1...4\).
+One or more sensors (small receiving coils) are placed in specific locations
+within the oral cavity whose movements is to be traced.
+The induced potential depends on the inverse of the cube of its distance
+from the transmitting winding and the frequency \(f_i\):
+\[
+    e(t)
+    =
+    A\sum_{i=1}^{4}\frac{f_i}{d_i^3}\sin{(2\pi f_i t)}
+\]
+Through frequency-domain analysis, from \(e(t)\) you can estimate the
+amplitude of each component, \(a_i=f_i/d_i^3\) where
+\(d_i=\sqrt{(x-x_i)^2+(y-y_i)^2}\) is the distance of the sensor \((x,y)\)
+from the \(i\)-th transmitting coil, located in \((x_i, y_i)\).
+Assume that for each trasmitting coil the \(a_i\) estimate is contaminated
+by a Gaussian noise with zero mean and variance \(\sigma^2\) (the same for
+all 4 transmitting coils) and that the four measures are statistically
+independent. Define a maximum likelihood estimator for position \((x,y)\)
+of the sensor, given the \(a_i\) measures.
+
+\Answer[number={3}]
+Let's define the dataset as \(D=\{a_i | i=1...4\}\),
+with each distance \(a_i\) affected by a Gaussian
+noise \(\eta\sim\mathcal{N}(0,\sigma^2)\).
+The posterior probability of the sensor \(x,y\) position
+\(Pr((x,y)|D)\propto Pr(D|(x,y)) = L((x,y)|D)\) since the data are
+independent observations (i.i.d.).
+Then, the likelihood is written as:
+\[
+    L((x,y)|D) = \prod_{i=1}^{4} Pr(a_i|(x,y))
+    \quad
+    \text{with }
+    Pr(a_i|(x,y))
+    =
+    \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2\sigma^2}\eta^2} =
+    \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2\sigma^2}\bigl(a_i-\frac{f_i}{d_i^3}\bigr)^2}
+\]
+Leading to the log-likelihood expression in the following:
+\begin{align*}
+    \log{L}((x,y)|D)
+    &=
+    \sum_{i=1}^{4} \log{Pr(a_i|(x,y))} \\
+    &=
+    \sum_{i=1}^{4} \biggl[-\frac{1}{2}\log{(2\pi\sigma^2)} -\frac{1}{2\sigma^2}\biggl(a_i-\frac{f_i}{d_i^3}\biggr)^2\biggr] \\
+    &=
+    -2\log{(2\pi\sigma^2)} -\frac{1}{2\sigma^2}\sum_{i=1}^{4} \biggl(a_i^2 + \frac{f_i^2}{d_i^6} -\frac{2a_i f_i}{d_i^3}\biggr) \\
+    &=
+    -2\log{(2\pi\sigma^2)} -\frac{1}{2\sigma^2}\sum_{i=1}^{4} \biggl(a_i^2 + \frac{f_i^2}{[(x-x_i)^2+(y-y_i)^2]^3} -\frac{2a_i f_i}{[(x-x_i)^2+(y-y_i)^2]^\frac{3}{2}}\biggr)
+\end{align*}
+By deriving the \(\log{L}((x,y)|D)\) with respect to the \(x\) variable,
+this expression can be obtained:
+\begin{align*}
+    \frac{\partial{\log{L}}}{\partial{x}}
+    &=
+    -\frac{1}{\cancel{2}\sigma^2}\sum_{i=1}^{4} \Biggl[-\frac{f_i^2 \cancel{2}(x-x_i)3[(x-x_i)^2+(y-y_i)^2]^2}{[(x-x_i)^2+(y-y_i)^2]^6} + \frac{\cancel{2}a_i f_i\frac{3}{\cancel{2}}[(x-x_i)^2+(y-y_i)^2]^\frac{1}{2}\cancel{2}(x-x_i)}{[(x-x_i)^2+(y-y_i)^2]^3}\Biggr] \\
+    &=
+    -\frac{3}{\sigma^2}\sum_{i=1}^{4} \frac{f_i (x-x_i)}{[(x-x_i)^2+(y-y_i)^2]^3} \Biggl[-\frac{f_i}{[(x-x_i)^2+(y-y_i)^2]} + a_i[(x-x_i)^2+(y-y_i)^2]^\frac{1}{2}\Biggr] \\
+    &=
+    -\frac{3}{\sigma^2}\sum_{i=1}^{4} \frac{f_i (x-x_i)}{[(x-x_i)^2+(y-y_i)^2]^3} \Biggl[\frac{-f_i + a_i[(x-x_i)^2+(y-y_i)^2]^\frac{3}{2}}{[(x-x_i)^2+(y-y_i)^2]}\Biggr]
+\end{align*}
+Thus, the \(\log{L}\) is maximum whenever its derivative is null:
+\begin{align*}
+    \frac{\partial{\log{L}}}{\partial{x}}
+    =
+    0
+    &\Rightarrow
+    \cancel{-\frac{3}{\sigma^2}}\sum_{i=1}^{4} \frac{f_i (x-x_i)}{[(x-x_i)^2+(y-y_i)^2]^3} \Biggl[\frac{-f_i + a_i[(x-x_i)^2+(y-y_i)^2]^\frac{3}{2}}{[(x-x_i)^2+(y-y_i)^2]}\Biggr]
+    =
+    0
+\end{align*}
+At this point, the maximum likelihood estimator \(\hat{x}\) can be found
+numerically, as a closed form solution is complex to determine. \\
+Similarly, the derivative w.r.t. \(y\) is:
+\begin{align*}
+    \frac{\partial{\log{L}}}{\partial{y}}
+    =
+    0
+    &\Rightarrow
+    \cancel{-\frac{3}{\sigma^2}}\sum_{i=1}^{4} \frac{f_i (y-y_i)}{[(x-x_i)^2+(y-y_i)^2]^3} \Biggl[\frac{-f_i + a_i[(x-x_i)^2+(y-y_i)^2]^\frac{3}{2}}{[(x-x_i)^2+(y-y_i)^2]}\Biggr]
+    =
+    0
+\end{align*}
+and the maximum likelihood estimator \(\hat{y}\) is computed numerically.

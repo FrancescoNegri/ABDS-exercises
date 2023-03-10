@@ -1,0 +1,33 @@
+\Exercise[number={12}]
+A quantity \(\mu\) is measured through \(N\) independent measurement channels.
+Every channel introduces an additive Gaussian noise \(\eta_i\), \(i=1,...,N\),
+with zero mean and variance \(\sigma_i^2\). Define a maximum likelihood
+estimator for \(\mu\), given the measures \(y_i = \mu + \eta_i\) from each
+channel.
+
+\Answer[number={12}]
+The quantity \(\mu\) represents the true value, while \(y\) is a vector of
+\(N\) observations of the true value \(\mu\) with a variable noise
+\(\eta\sim\mathcal{N}(0, \Sigma)\), being \(\Sigma\) a diagonal covariance
+matrix.\\
+The likelihood can be expressed as:
+\begin{align*}
+    L(\mu|y)=\prod_{i=1}^{N}L(\mu|y_i)=\prod_{i=1}^{N}\frac{1}{\sqrt{2\pi\sigma_i^2}}e^{\frac{1}{2\sigma_i^2}(y_i-\mu)^2}
+\end{align*}
+Consequently, the log-likelihood becomes:
+\begin{align*}
+    \log{L(\mu|y)}
+    =
+    \sum_{i=1}^{N}\biggl[-\frac{1}{2}\log{(2\pi\sigma_i^2)}-\frac{1}{2\sigma_i^2}(y_i-\mu)^2\biggr]
+\end{align*}
+The maximum likelihood estimator \(\hat{\mu}\) is obtained by deriving the
+log-likelihood expression and setting it to 0:
+\begin{align*}
+    \frac{\partial{L(\mu|y)}}{\partial{\mu}}=0
+    \Rightarrow
+    \sum_{i=0}^{N}\cancel{-}\cancel{2}\frac{1}{\cancel{2}\sigma_i^2}(y_i-\mu)=0
+    \Rightarrow
+    \sum_{i=1}^{N}\frac{y_i}{\sigma_i^2}=\mu\sum_{i=1}^{N}\frac{1}{\sigma_i^2}
+    \Rightarrow
+    \hat{\mu}=\frac{\sum_{i=1}^{N}\frac{y_i}{\sigma_i^2}}{\sum_{i=1}^{N}\frac{1}{\sigma_i^2}}
+\end{align*}

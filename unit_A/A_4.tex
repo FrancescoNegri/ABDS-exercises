@@ -1,0 +1,67 @@
+\Exercise[number={4}]
+You have a data set consisting of \(N\) independent experiments: 
+\(D = {(x_i, y_i), i = 1...N}\) where \(y_i\) is a scalar. 
+Consider the following class of models:
+\[
+y=x^T b + \eta
+\]
+where \(b\) is a vector of parameters and \(\eta\sim\mathcal{N}(0,\sigma^2)\).
+Also suppose (a priori knowledge) that the vector of the 
+parameters has a probability density \(b\sim\mathcal{N}(0,I\sigma_b^2)\).
+Formulate an a-posteriori maximum probability estimator for \(b\).
+
+\Answer[number={4}]
+Given the dataset \(D=\{(x_i, y_i) | i=1...N\}\) and said that \(y_i\) is
+a scalar variable, the dimensions of the other variables and parameters involved
+can be determined as follow: \(y: N\times 1\), \(x: d\times N\), \(b: d\times 1\). \\
+The posterior probability of the parameters vector \(b\) is
+\(Pr(b|D)\propto P(D|b)P(b) = L(b|D)P(b)\) as the data are independent and identically
+distributed (i.i.d.).
+The likelihood and the log-likelihood are written as:
+\[
+    L(b|D) = Pr(D|b) = \prod_{i=1}^{N} Pr((x_i, y_i)|b)
+    \Rightarrow
+    \log{L}(b|D) = \sum_{i=1}^{N}\log{Pr((x_i, y_i)|b)}
+\]
+Now, notice that \(y=x^T b + \eta \Rightarrow \eta=y-x^T b\), therefore
+\begin{align*}
+    Pr(D|b)
+    &= 
+    (2\pi)^{-\frac{d}{2}}|\Sigma|^{-\frac{1}{2}}\exp{\biggl\{ -\frac{1}{2}\eta^T\Sigma^{-1}\eta \biggr\}} \\
+    &=
+    (2\pi)^{-\frac{d}{2}}|\Sigma|^{-\frac{1}{2}}\exp{\biggl\{ -\frac{1}{2}(y-x^T b)^T\Sigma^{-1}(y-x^T b) \biggr\}} \\
+    &= \prod_{i=1}^{N} \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{1}{2\sigma^2}(y_i-x_i^T b)^2}
+\end{align*}
+and as a consequence
+\begin{align*}
+    \log{L}(b|D)
+    &=
+    -\frac{N}{2}\log{2\pi\sigma^2}-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(y_i-x_i^T b)^2
+\end{align*}
+Let's recall that \(b \sim \mathcal{N}(0, \Sigma_b)\) with \(\Sigma_b = I\sigma_b^2\), thus
+\begin{align*}
+    Pr(b)=(2\pi)^{-\frac{d}{2}}|\Sigma_b|^{-\frac{1}{2}}\exp{\biggl\{ -\frac{1}{2}b^T\Sigma_b^{-1}b \biggr\}}
+    =
+    \prod_{i=1}^{d} \frac{1}{\sqrt{2\pi\sigma_b^2}} e^{-\frac{1}{2\sigma_b^2}b_i^2}
+\end{align*}
+since \(\Sigma_b\) is diagonal, and
+\begin{align*}
+    \log{Pr}(b)
+    &=
+    -\frac{d}{2}\log{2\pi\sigma_b^2}-\frac{1}{2\sigma_b^2}\sum_{i=1}^{d}b_i^2
+\end{align*}
+Notice that \(\log{Pr}(b|D) \propto \log{L}(b|D) + \log{P}(b)\), therefore
+the maximum is to be found by deriving w.r.t to the \(b\) vector and
+setting it to zero:
+\begin{align*}
+    \frac{\partial{\log{Pr}(b|D)}}{\partial{b}}
+    &=
+    -\frac{1}{2\sigma^2}\sum_{i=1}^{N}-2(y_i-x_i^T b)x_i-\frac{1}{2\sigma_b}\frac{\partial}{\partial{b}}\biggl(\sum_{i=1}^{d}b_i^2\biggr) \\
+    &=
+    -\frac{1}{2\sigma^2}\sum_{i=1}^{N}-2(y_i-x_i^T b)x_i-\frac{1}{\cancel{2}\sigma_b}\cancel{2}b \\
+    &=
+    -\frac{1}{2\sigma^2}\sum_{i=1}^{N}-2(y_i-x_i^T b)x_i-\frac{1}{\sigma_b}b \\
+    &=
+    0
+\end{align*}
+The a-posteriori estimator \(\hat{b}\) is then found numerically.

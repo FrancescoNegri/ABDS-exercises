@@ -1,0 +1,49 @@
+\Exercise[number={9}]
+Let \(\bar{x}\) be a binary vector (i.e. each element may be either 0 or 1), with a
+multivariate Bernoulli distribution:
+\[
+    p(\bar{x}|\bar{\theta})=\prod_{i=1}^{d}\theta_i^{x_i}(1-\theta_i)^{1-x_i}
+\]
+where \(\bar{\theta}=[\theta_1,...,\theta_d]^T\) is a vector of parameters,
+where \(\theta_i = p(x_i=1)\). Given \(N\) independent measures
+\(\bigl\{ \bar{x}_n, n=1,...,N \bigr\}\) develop a maximum likelihood
+estimator of \(\bar{\theta}\).
+
+\Answer[number={9}]
+Let the dataset be \(X=\{x_n, n=1,...,N\}\), then the posterior probability
+and the likelihood are
+\begin{align*}
+    p(\bar{\theta}|X) \propto p(X|\bar{\theta})
+    =
+    L(\bar{\theta}|X) = \prod_{n=1}^{N}L(\bar{\theta}|x_n)
+    =
+    \prod_{n=1}^{N} \prod_{i=1}^{d} \theta_i^{x_{ni}}(1-\theta_i)^{(1-x_{ni})}
+\end{align*}
+since the data sample \(x_n\) is \(d\)-dimensional.
+Consequently, the log-likelihood results as:
+\begin{align*}
+    \log{L(\bar{\theta}|X)}
+    &=
+    \sum_{n=1}^{N}\sum_{i=1}^{d} \biggl[x_{ni}\log{\theta_i}+(1-x_{ni})\log{(1-\theta_i)}\biggr] \\  
+    &=
+    \sum_{n=1}^{N}\biggl[\sum_{i=1}^{d}x_{ni}\log{\theta_i}+\sum_{i=1}^{d}(1-x_{ni})\log{(1-\theta_i)}\biggr] \\
+    &=
+    \sum_{n=1}^{N}
+    \begin{cases}
+        \begin{matrix}
+            \sum_{i=1}^{d}\log{\theta_i} && x_{ni} = 1 \\
+            \sum_{i=1}^{d}\log{(1-\theta_i)} && x_{ni} = 0
+        \end{matrix}
+    \end{cases}
+\end{align*}
+Notice that \(\theta_i\) is the probability such that \(x_{ni}=1\), which is
+a binary variable, assuming exclusively 0 or 1 values. As a consequence,
+\(\theta_i\) lays in the interval between 0 and 1, meaning that the log-likelihood
+is always negative: \(-\infty<\log{\theta_i}<0\). The same reasoning
+works in an opposite way for the \(\log{(1-\theta_i)}\) case. \\
+Said so, the likelihood is maximum when all the addends are null, otherwise
+some negative factors would be added to the sum, obtaining an overall value
+lower than 0. This makes sense, as the maximum posterior probability
+(proportional to the likelihood) is obtained when the outcome of a random event
+is fully known, implying that the related probability is either
+\(\hat{\theta_i}=0\) or \(\hat{\theta_i}=1\).

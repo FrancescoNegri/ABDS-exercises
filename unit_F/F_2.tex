@@ -1,0 +1,33 @@
+\Exercise[number={2}]
+Find the optimal predictor, \(\hat{y}(t|t-1,\theta)\) for the following
+system assuming \(E\{e(t)\}=0\) and \(E\{e(t)e(s)\}=\lambda^2\delta(t-s)\)
+(notice that \(y(t|t-1,\theta)\) is a function of \(\{(u(s),y(s))\}_{s<t}\)).\\
+The system is:
+\begin{align*}
+    (1-0.1q^{-1})y(t)=-0.5q^{-1}u(t)+e(t)
+\end{align*}
+
+\Answer[number={2}]
+From the general formula of a dynamic system, the \(G\) and \(H\)
+parameters can be derived as follow:
+\begin{align*}
+    y(t)=Gu(t)+He(t)
+    \Rightarrow
+    G=\frac{-0.5q^{-1}}{1-0.1q^{-1}} \quad\text{and}\quad H=\frac{1}{1-0.1q^{-1}}
+\end{align*}
+Therefore, the optimal predictor is defined as
+\begin{align*}
+    \hat{y}(t|t-1,\theta) = L_1y(t)+L_2u(t) = (1-H^{-1})y(t)+H^{-1}Gu(t)
+\end{align*}
+and the parameters \(L_1\) and \(L_2\) are easily computed below:
+\begin{align*}
+    &\Rightarrow
+    L_1 = 1-H^{-1} = 1-(1-0.1q^{-1}) = 0.1q^{-1}\\
+    &\Rightarrow
+    L_2 = H^{-1}G = \cancel{(1-0.1q^{-1})}\frac{-0.5q^{-1}}{\cancel{1-0.1q^{-1}}}=-0.5q^{-1}
+\end{align*}
+Leading to the optimal predictor:
+\begin{align*}
+    \hat{y}(t|t-1,\theta) = 0.1q^{-1}y(t)-0.5q^{-1}u(t)
+\end{align*}
+Notice that the considered dynamical system is an ARX model.

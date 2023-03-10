@@ -1,0 +1,20 @@
+\Exercise[number={7}]
+Consider a LDS:
+\begin{align*}
+    \begin{matrix}
+        x_{t+1}=Ax_t+Bu_t+w_t && p(w_t)=\mathcal{N}(w_t|0,Q)\\
+        y_t=Cx_t+Du_t+v_t && p(v_t)=\mathcal{N}(v_t|0,R)
+    \end{matrix}
+\end{align*}
+where \(u_t=a_t+n_t\) is an external input where \(a_t\) is observed
+(i.e., known) whereas \(n_t\sim\mathcal{N}(0,D)\) (Gaussian noise with
+covariance \(D\)). We intend to modify Kalman algorithm for the iterative
+estimate of state \(x_t\) in order to also account for the input \(u_t\).
+In particular:
+\begin{itemize}
+    \item\quad a. Modify the expression for the posterior state estimate.
+    \item\quad b. Modify the corresponding iterative algorithm.
+\end{itemize}
+
+\Answer[number={7}]
+TBD

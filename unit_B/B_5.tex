@@ -1,0 +1,49 @@
+\Exercise[number={5}]
+From his cell, a prisoner observes through a window \(N\) stars, in positions
+\(D = \{(x_i, y_i), i = 1...N\}\). He cannot see the edges of the window
+because the room is totally dark apart from the stars. 
+Assuming that the window is square and the positions of the stars are
+independent and uniformly distributed in \(XY\) space, what can be said about
+the position \((x_0, y_0)\) and the length \(L\) of the side of 
+the window? [Hint: This is a probability density estimation problem.
+Just write an expression for likelihood ...]
+
+\Answer[number={5}]
+First of all, it might be useful to sketch both the problem and the
+probability density function:
+\begin{figure}[H]
+    \includegraphics[scale=0.65]{B_5}
+    \centering
+\end{figure}
+The goal of the exercise consists in finding the smallest window (thus
+smallest \(L\)) such that all the \(N\) stars are visible from it.
+Notice that integral of the probability density is supposed to be 1,
+hence the volume of the box indicated in the right-side plot should be 1,
+leading to the following:
+\[
+    V=1 \quad\text{and}\quad V=Ah=L^2h \Rightarrow L^2h=1 \Rightarrow h=\frac{1}{L^2}
+\]
+The a-posteriori probability is to be written:
+\[
+    p((x_0,y_0),L|D)=\frac{p(D|(x_0,y_0),L)p((x_0,y_0),L)}{p(D)}
+    \propto
+    p(D|(x_0,y_0),L) = L((x_0,y_0),L|D)
+\]
+The likelihood is evaluated as:
+\[
+    L((x_0,y_0),L|D) = \prod_{i=1}^{N}p((x_i,y_i)|(x_0,y_0),L)=\prod_{i=1}^{N}
+    \begin{cases}
+        \begin{matrix}
+            h\,\Bigl(=\frac{1}{L^2}\Bigr) && (x_i, y_i)\in \text{window} \\
+            0 && (x_i,y_i)\notin \text{window}
+        \end{matrix}
+    \end{cases}
+\]
+By assuming that all the \(N\) stars are seen by the window (otherwise the
+likelihood product would be 0 even if just one star is not seen), it can
+be said that:
+\[
+    L((x_0,y_0),L|D) = \biggl(\frac{1}{L^2}\biggr)^N
+\]
+Therefore, the likelihood is maximized when \(L\to{0}\) (as small as
+possible), but still able to allow to see all the stars.

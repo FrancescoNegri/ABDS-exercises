@@ -1,0 +1,148 @@
+\Exercise[number={6}]
+Consider the following linear dynamical system:
+\begin{align*}
+    \begin{cases}
+        x_{i+1}=A\cdot x_i + w_i \\ y_i=C\cdot x_i + v_i
+    \end{cases}
+\end{align*}
+where \(p(w_i)=\mathcal{N}(w_i|0,Q)\) and \(p(v_i)=\mathcal{N}(v_i|0,R)\).\\
+Let \(A=[1\quad1; 0\quad1]\), \(C=[1\quad 1]\), \(R=\sigma_1^2\), \(Q=\sigma^2I_2\).\\
+Also let (initial conditions): \(P_0^+=I_2\) and \(x_0^+=0\).
+\begin{itemize}
+    \item\quad a. Calculate \(K_1\) (Kalman gain at time \(i=1\)).
+    \item\quad b. Calculate \(x_1^-\) and \(x_1^+\) (respectively, prior
+    and posterior state estimate at time \(i=1\)) and the corresponding
+    covariance matrices \(P_1^-\) and \(P_1^+\).
+\end{itemize}
+
+\Answer[number={6}]
+a. First of all, let's recall the formulas to compute the Kalman gain and the
+prior and posterior estimate for the state and for the variance:
+\begin{align*}
+    \begin{matrix}
+        {} && K_t=\hat{P}_t^-C^T(C\hat{P}_t^-C^T+R)^{-1} && {}\\
+        \hat{x}_t^-=A\hat{x}_{t-1}^+ && {} && \hat{x}_t^+=\hat{x}_t^-+K_t(y_t-C\hat{x}_t^-)\\
+        \hat{P}_t^-=A\hat{P}_{t-1}^+A^T+Q && {} && \hat{P}_t^+=\hat{P}_t^--K_tC\hat{P}_t^-
+    \end{matrix}
+\end{align*}
+In order to derive \(K_t\), \(P_1^-\) shall be computed:
+\begin{align*}
+    P_1^-
+    =AP_0^+A^T+Q
+    &=
+    \begin{bmatrix}
+        1&&1\\0&&1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1&&0\\0&&1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1&&0\\1&&1
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        \sigma^2&&0\\0&&\sigma^2
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+        1&&1\\0&&1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1&&0\\1&&1
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        \sigma^2&&0\\0&&\sigma^2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        2&&1\\1&&1
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        \sigma^2&&0\\0&&\sigma^2
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+        2+\sigma^2&&1\\1&&1+\sigma^2
+    \end{bmatrix}
+\end{align*}
+Therefore,
+\begin{align*}
+    K_1
+    =\hat{P}_1^-C^T(C\hat{P}_1^-C^T+R)^{-1}
+    &=
+    \begin{bmatrix}
+        2+\sigma^2&&1\\1&&1+\sigma^2
+    \end{bmatrix}
+    \begin{bmatrix}
+        1\\1
+    \end{bmatrix}
+    \Biggl(
+        \begin{bmatrix}
+            1&&1
+        \end{bmatrix}
+        \begin{bmatrix}
+            2+\sigma^2&&1\\1&&1+\sigma^2
+        \end{bmatrix}
+        \begin{bmatrix}
+            1\\1
+        \end{bmatrix}
+        +\sigma_1^2
+    \Biggr)^{-1}\\
+    &=
+    \begin{bmatrix}
+        3+\sigma^2\\2+\sigma^2
+    \end{bmatrix}
+    \Biggl(
+        \begin{bmatrix}
+            3+\sigma^2&&2+\sigma^2
+        \end{bmatrix}
+        \begin{bmatrix}
+            1\\1
+        \end{bmatrix}
+        +\sigma_1^2
+    \Biggr)^{-1}\\
+    &=
+    \begin{bmatrix}
+        3+\sigma^2\\2+\sigma^2
+    \end{bmatrix}
+    \biggl(
+        5+2\sigma^2+\sigma_1^2
+    \biggr)^{-1}
+    =
+    \frac{1}{5+2\sigma^2+\sigma_1^2}
+    \begin{bmatrix}
+        3+\sigma^2\\2+\sigma^2
+    \end{bmatrix}
+\end{align*}
+b. Now, let's quickly compute
+\begin{align*}
+    \hat{x}_1^-=A\hat{x}_0^-=
+    \begin{bmatrix}
+        0\\0
+    \end{bmatrix}
+\end{align*}
+while
+\begin{align*}
+    \hat{x}_1^+
+    =\hat{x}_1^-+K_1(y_1-C\hat{x}_1^-)
+    =\cancel{\hat{x}_1^-}+
+    \frac{1}{5+2\sigma^2+\sigma_1^2}
+    \begin{bmatrix}
+        3+\sigma^2\\2+\sigma^2
+    \end{bmatrix}
+    \biggl(
+        y_1-
+        \cancel{
+            \begin{bmatrix}
+                1&&1
+            \end{bmatrix}
+            \hat{x}_1^-
+        }
+    \biggr)
+    =\frac{y_1}{5+2\sigma^2+\sigma_1^2}
+    \begin{bmatrix}
+        3+\sigma^2\\2+\sigma^2
+    \end{bmatrix}
+\end{align*}

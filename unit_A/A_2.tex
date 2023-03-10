@@ -1,0 +1,84 @@
+\Exercise[number={2}]
+In a movement analysis experiment which focuses on the analysis of
+planar movements of the upper limb, we intend to estimate the position
+of the shoulder with respect to a reference system \([XY]\) with origin
+in the center of a digitizing tablet.
+The position \((x,y)\) of the shoulder is estimated from the
+measurement of the distances \(d_1...d_4\) from the four vertices of
+the tablet, whose positions \((x_i,y_i), i=1...4\) are assumed to be
+known:
+\[
+    d_i = \sqrt{(x-x_i)^2+(y-y_i)^2}
+\]
+Assume that the four distance measures are statistically independent
+and that each estimate of \(d_i\) is affected by a Gaussian noise
+with zero mean and variance \(\sigma^2\) (the same for all 4 vertices). Define a maximum likelihood 
+estimator for the \((x,y)\) position of the shoulder, given the measurements of \(d_1...d_4\).
+
+\Answer[number={2}]
+Let's define the dataset as \(D=\{d_i | i=1...4\}\),
+however each distance \(d_i\) is affected by a Gaussian
+noise \(\eta\sim\mathcal{N}(0,\sigma^2)\).
+Therefore, a data point is defined as
+\[d_i = \sqrt{(x-x_i)^2+(y-y_i)^2} + \eta\]
+being a Gaussian distribution itself, with the same variance \(\sigma^2\)
+and a shifted mean.
+The posterior probability of the shoulder position
+\(Pr((x,y)|D)\propto L((x,y)|D)\) since the data are independent
+observations (i.i.d.).
+Then, the likelihood and the log-likelihood themselves can be expressed as:
+\[
+    L((x,y)|D) = Pr(D|(x,y)) = \prod_{i=1}^{4} Pr(d_i|(x,y))
+    \Rightarrow
+    \log{L}((x,y)|D) = \sum_{i=1}^{4}\log{Pr(d_i|(x,y))}
+\]
+At this point, it can be said that
+\[
+    Pr(d_i|(x,y)) = 
+    \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2\sigma^2}\eta^2} =
+    \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2\sigma^2}(d_i-\sqrt{(x-x_i)^2+(y-y_i)^2})^2}
+\]
+and consequetly
+\begin{align*}
+    \log{L}((x,y)|D)
+    &=
+    \sum_{i=1}^{4} \biggl[-\frac{1}{2}\log{(2\pi\sigma^2)} -\frac{1}{2\sigma^2}(d_i-\sqrt{(x-x_i)^2+(y-y_i)^2})^2\biggr] \\
+    &=
+    -2\log{(2\pi\sigma^2)} -\frac{1}{2\sigma^2}\sum_{i=1}^{4} (d_i-\sqrt{(x-x_i)^2+(y-y_i)^2})^2 \\
+    &=
+    -2\log{(2\pi\sigma^2)} -\frac{1}{2\sigma^2}\sum_{i=1}^{4} (d_i^2 + (x-x_i)^2+(y-y_i)^2 - 2d_i\sqrt{(x-x_i)^2+(y-y_i)^2})
+\end{align*}
+By deriving the \(\log{L}((x,y)|D)\) for the \(x\) variable, the following
+expression is obtained:
+\begin{align*}
+    \frac{\partial{\log{L}}}{\partial{x}}
+    &=
+    -\frac{1}{2\sigma^2}\sum_{i=1}^{4} \biggl[2(x-x_i) - \frac{2d_i(x-x_i)}{\sqrt{(x-x_i)^2+(y-y_i)^2}}\biggr] \\
+    &=
+    -\frac{1}{\cancel{2}\sigma^2}\sum_{i=1}^{4} \biggl[\cancel{2}(x-x_i)( 1-\frac{d_i}{\sqrt{(x-x_i)^2+(y-y_i)^2}})\biggr] \\
+    &=
+    -\frac{1}{\sigma^2}\sum_{i=1}^{4} \biggl[(x-x_i)\biggl(\frac{\sqrt{(x-x_i)^2+(y-y_i)^2}-d_i}{\sqrt{(x-x_i)^2+(y-y_i)^2}}\biggr)\biggr] \\
+\end{align*}
+Thus, the \(\log{L}\) is maximum whenever its derivative is null:
+\begin{align*}
+    \frac{\partial{\log{L}}}{\partial{x}}
+    =
+    0
+    &\Rightarrow
+    -\frac{1}{\sigma^2}\sum_{i=1}^{4} \biggl[(x-x_i)\biggl(\frac{\sqrt{(x-x_i)^2+(y-y_i)^2}-d_i}{\sqrt{(x-x_i)^2+(y-y_i)^2}}\biggr)\biggr]
+    =
+    0
+\end{align*}
+At this point, the maximum likelihood estimator \(\hat{x}\) can be found
+numerically, as a closed form solution is complex to determine. \\
+Similarly, the derivative w.r.t. \(y\) is:
+\begin{align*}
+    \frac{\partial{\log{L}}}{\partial{y}}
+    =
+    0
+    &\Rightarrow
+    -\frac{1}{\sigma^2}\sum_{i=1}^{4} \biggl[(y-y_i)\biggl(\frac{\sqrt{(x-x_i)^2+(y-y_i)^2}-d_i}{\sqrt{(x-x_i)^2+(y-y_i)^2}}\biggr)\biggr]
+    =
+    0
+\end{align*}
+and the maximum likelihood estimator \(\hat{y}\) is computed numerically.

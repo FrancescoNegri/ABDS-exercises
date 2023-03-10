@@ -1,0 +1,69 @@
+\Exercise[number={11}]
+A vector y of measures is described by the factorial model \((\Lambda, \Psi)\):
+\[
+    y_d=\sum_{k=1}^{K} \Lambda_{dk}x_k+\epsilon_d
+\]
+in terms of \(K\) orthogonal factors \(x_k\sim \mathcal{N}(0,1)\) and a Gaussian
+noise \(\epsilon_d \sim \mathcal{N}(0, \Psi_{dd})\) with a diagonal \(\Psi_{dd}\).
+Assume that the \(i\)-th element of \(y\) is scaled by a factor \(h\), i.e.
+\(y_i'=h y_i\). How does the factorial model (and the factors \(x_k\) ) change
+for the scaled vector \(y'\)?
+
+\Answer[number={11}]
+First of all, let's point out that
+\(y=\Lambda x + \epsilon = \sum_{i=1}^{K}(\lambda_i x_i)+\epsilon\),
+\(x_i\sim\mathcal{N}(0, 1) \Rightarrow x\sim\mathcal{N}(0, I)\),
+\(\epsilon\sim\mathcal{N}(0, \Psi)\), and, consequently,
+\(y\sim\mathcal{N}(0, \Sigma)\), where
+\begin{align*}
+    \Sigma
+    &=E\{\bigl[y-E\{y\}\bigr]\bigr[y-E\{y\}\bigr]^T\}
+    =E\{yy^T\}
+    =E\{\Lambda x x^T \Lambda^T\} + E\{\epsilon\epsilon^T\}\\
+    &=E\{\Lambda I \Lambda^T\} + \Psi
+    =E\{\Lambda\Lambda^T\} + \Psi
+    =\Lambda\Lambda^T + \Psi
+\end{align*}
+Now, let's introduce a homogeneous transformation \(H\) to scale the
+vector \(y\), leading to:
+\begin{align*}
+    y'=Hy=H\Lambda x + H\epsilon \Rightarrow y'=\Lambda'x + \epsilon'
+\end{align*}
+Notice that a scaling matrix must have the determinant different from 1
+(otherwise no scaling) and must be diagonal, otherwise a rotation occurs. \\
+Let's try to determine \(\Psi'\) by exploiting the
+definition of variance as expected value:
+\begin{align*}
+    \Psi'
+    =E\{\bigl[\epsilon'-E\{\epsilon'\}\bigr]\bigr[\epsilon'-E\{\epsilon'\}\bigr]^T\}
+    =E\{\epsilon'\epsilon'^T\}
+    =E\{H\epsilon\epsilon^T H^T\}
+    =HE\{\epsilon\epsilon^T\}H^T
+    =H\Psi H^T
+\end{align*}
+Therefore, \(\epsilon'\sim\mathcal{N}(0, \Psi')\). Similarly,
+\begin{align*}
+    \Sigma'
+    &=E\{\bigl[y'-E\{y'\}\bigr]\bigr[y'-E\{y'\}\bigr]^T\}
+    =E\{y'y'^T\}
+    =E\{Hyy^T H^T\}
+    =HE\{yy^T\}H^T\\
+    &=H\Sigma H^T
+    =H(\Lambda\Lambda^T + \Psi)H^T
+    =H\Lambda\Lambda^T H^T + \Psi'
+    =\Lambda'\Lambda'^T + \Psi'
+\end{align*}
+According to the definition of factor analysis, the eigenvalue
+decomposition of the \(y\) covariance matrix is
+\(\Sigma=\Lambda I \Lambda^T\), while the decomposition of the \(y'\)
+covariance matrix is \(\Sigma'=H\Lambda I\Lambda^T H^T = \Lambda'I\Lambda'^T\).
+Notice that \(\Lambda'\) has no particular constraints in FA, therefore scaling
+\(\Lambda\) by matrix \(H\) doesn't go against the FA assumptions.
+The same can be said for \(\Psi'\), which must be a diagonal matrix, but the
+scaling matrix \(H\) is diagonal itself, as previously said, thus multiplying
+a diagonal \(\Psi\) by another diagonal \(H\) produces once again a diagonal
+matrix \(\Psi'\).\\
+Said so, it is clear that the assumptions necessary for the Factor Analysis
+are not violated and the only element producing a difference between \(y\)
+and \(y'\) w.r.t. \(x\) is the scaling matrix \(H\), thus the same
+components \(x\) are obtained, making it invariant.

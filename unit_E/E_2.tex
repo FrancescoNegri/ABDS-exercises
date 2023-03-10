@@ -1,0 +1,19 @@
+\Exercise[number={2}]
+A virus exists in \(N\) different variants. At each generation the virus
+mutates with probability \(0<p<1\) into a different variant, chosen at
+random among the remaining ones. Calculate the probability that after \(n\) 
+generations the virus type has not changed with respect to the initial
+type (generation 1). 
+
+\Answer[number={2}]
+If \(p\) is the probability for a mutation to occur between two subsequent
+generation, it is easy to see that the probability for a mutation not to
+occur is just \(1-p\).\\
+Said so, in order not to have a mutation between two generations:
+\begin{align*}
+    p(S_t|S_{t-1})=1-p
+\end{align*}
+By extending the formula to \(n\) generations one may simply obtain:
+\begin{align*}
+    p(S_n|S_{1:n-1})=\prod_{i=1}^{n}(1-p)=(1-p)^n
+\end{align*}

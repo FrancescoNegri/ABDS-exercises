@@ -1,0 +1,53 @@
+\Exercise[number={3}]
+In many physical phenomena (earthquakes, avalanches, fires, epidemics,
+propagation of activity in populations of neurons) a quantity occurs that
+has a statistical distribution of power-law type, i.e.:
+\[
+    p(x)=K_nx^{-n}
+\]
+with \(n>1\), , and \(x>1\), where \(K_n\) is a normalization constant
+(dependent on \(n\)). 
+a) Calculate the normalization function 
+b) Given a dataset \(X=\{x_1,...,x_n\}\), determine an expression for the
+maximum likelihood estimate of the exponent \(n\) of the distribution.
+
+\Answer[number={3}]
+To calculate the normalization function \(K_n\) it is necessary to
+integrate over the proper domain (by remembering that \(x>1\)):
+\begin{align*}
+    \int_{1}^{+\infty}p(x)\,dx = 1 \Rightarrow
+    \int_{1}^{+\infty}K_nx^{-n}\,dx
+    =
+    K_n\biggl[\frac{x^{1-n}}{1-n}\biggr]_{1}^{+\infty}
+    =
+    K_n\biggl(0-\frac{1^{1-n}}{1-n}\biggr)
+    =
+    1 \Rightarrow
+    K_n=n-1
+\end{align*}
+\\
+The maximum likelihood estimator for the parameter \(n\) can be found by
+simply computing the derivative of the log-likelihood and equating it to
+zero:
+\[
+    p(n|X)=\frac{p(X|n)p(n)}{p(X)} \propto p(X|n)=L(n|X)
+    =
+    \prod_{i=1}^{N}(n-1)x_i^{-n}
+\]
+\[
+    \Rightarrow
+    \log{L(n|X)}=N\log{(n-1)}-n\sum_{i=1}^{N}\log{x_i}
+\]
+\[
+    \Rightarrow
+    \frac{\partial{\log{L(n|X)}}}{\partial{n}}
+    =
+    \frac{N}{n-1}-\sum_{i=1}^{N}\log{x_i}
+    =
+    0
+    \Rightarrow
+    n-1=\frac{N}{\sum_{i=1}^{N}\log{x_i}}
+\]
+\[
+    \Rightarrow \hat{n} = \frac{N}{\sum_{i=1}^{N}\log{x_i}} + 1
+\]

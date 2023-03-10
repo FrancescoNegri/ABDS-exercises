@@ -1,0 +1,35 @@
+\Exercise[number={8}]
+Consider a one-dimensional binary decision problem, in which the conditional
+densities are described by the Cauchy distribution:
+\[
+    p(x|w_i)=\frac{1}{\pi b}\frac{1}{1+\bigl(\frac{x-a_i}{b}\bigr)^2}
+\]
+Prove that if \(Pr(w_1)=Pr(w_2)\) the two posterior probabilities are equal
+for \(x=(a_1+a_2)/2\).
+
+\Answer[number={8}]
+The decision criterion \(z(x)\) can be written as:
+\begin{align*}
+    z(x)
+    &=\frac{\log{p(x|w_1)}}{\log{p(x|w_2)}}+\cancel{\log{\frac{Pr(w_1)}{Pr(w_2)}}}
+    =\log{p(x|w_1)}-\log{p(x|w_2)}\\
+    &=-\cancel{\log{\pi b}}-\log{\biggl[1+\biggl(\frac{x-a_1}{b}\biggr)^2\biggr]}+\cancel{\log{\pi b}}+\log{\biggl[1+\biggl(\frac{x-a_2}{b}\biggr)^2\biggr]}
+\end{align*}
+The decision boundary is obtained by setting \(z(x)\) equal to 0:
+\begin{align*}
+    z(x)=0
+    &\Rightarrow
+    -\log{\biggl[1+\biggl(\frac{x-a_1}{b}\biggr)^2\biggr]}+\log{\biggl[1+\biggl(\frac{x-a_2}{b}\biggr)^2\biggr]}=0\\
+    &\Rightarrow
+    \log{\biggl[1+\biggl(\frac{x-a_1}{b}\biggr)^2\biggr]}=\log{\biggl[1+\biggl(\frac{x-a_2}{b}\biggr)^2\biggr]}\\
+    &\Rightarrow
+    \cancel{1}+\biggl(\frac{x-a_1}{\cancel{b}}\biggr)^2=\cancel{1}+\biggl(\frac{x-a_2}{\cancel{b}}\biggr)^2\\
+    &\Rightarrow
+    \cancel{x^2}+a_1^2-2a_1x-\cancel{x^2}-a_2^2+2a_2x=0\\
+    &\Rightarrow
+    -2(a_1-a_2)x+(a_1^2-a_2^2)=0\\
+    &\Rightarrow
+    2\cancel{(a_1-a_2)}x=(a_1+a_2)\cancel{(a_1-a_2)}
+    \Rightarrow
+    x=\frac{a_1+a_2}{2}
+\end{align*}

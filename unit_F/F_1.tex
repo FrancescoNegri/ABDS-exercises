@@ -1,0 +1,23 @@
+\Exercise[number={1}]
+Find the optimal predictor, \(\hat{y}(t|t-1,\theta)\) for the following
+system assuming \(E\{e(t)\}=0\) and \(E\{e(t)e(s)\}=\lambda^2\delta(t-s)\)
+(notice that \(y(t|t-1,\theta)\) is a function of \(\{(u(s),y(s))\}_{s<t}\)).\\
+The system is:
+\begin{align*}
+    y(t)=e(t)
+\end{align*}
+
+\Answer[number={1}]
+From the general formula of a dynamic system, the \(G\) and \(H\)
+parameters can be derived as follow:
+\begin{align*}
+    y(t)=Gu(t)+He(t)=e(t)
+    \Rightarrow
+    G=0 \quad\text{and}\quad H=1
+\end{align*}
+Therefore, the optimal predictor is easily obtained:
+\begin{align*}
+    \hat{y}(t|t-1,\theta) = (1-H^{-1})y(t)+H^{-1}Gu(t)
+    \Rightarrow
+    \hat{y}(t|t-1,\theta) = 0y(t)+0u(t)=0
+\end{align*}

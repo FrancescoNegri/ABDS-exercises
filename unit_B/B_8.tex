@@ -1,0 +1,41 @@
+\Exercise[number={8}]
+A random variable \(y>0\) has the following probability density function
+(Rayleigh's pdf):
+\begin{align*}
+    p(y)=
+    \begin{cases}
+        \begin{matrix}
+            \frac{y}{\theta}e^{-\frac{y^2}{2\theta^2}} && y\ge0 \\ 0 && \text{otherwise}
+        \end{matrix}
+    \end{cases}
+\end{align*}
+You have \(N\) independent observations \(\{y_1,...,y_N\}\). Define a
+maximum likelihood estimator for parameter \(q\). 
+
+\Answer[number={8}]
+The dataset is defined as \(Y=\{y_1,...,y_N\}\), then the a-posteriori
+probability is given by the expression:
+\begin{align*}
+    p(\theta|Y)=\frac{p(Y|\theta)p(\theta)}{p(Y)}
+    \propto
+    p(Y|\theta)=L(\theta|Y)=\prod_{i=1}^{N}p(y_i|\theta)
+\end{align*}
+Notice that it is necessary to assume always \(y_i\ge0\), otherwise the
+product results equal to 0 and the likelihood wouldn't be maximized. \\
+Said so, the likelihood is expressed as
+\begin{align*}
+    L(\theta|Y)=\prod_{i=1}^{N}\frac{y_i}{\theta}e^{-\frac{y_i^2}{2\theta^2}}
+    \Rightarrow
+    \log{L(\theta|Y)}=\sum_{i=1}^{N}\log{y_i} - 2N\log{\theta} - \frac{1}{2\theta^2}\sum_{i=1}^{N}y_i^2
+\end{align*}
+and the maximum likelihood estimator \(\hat{\theta}\) is given by the derivative
+set to 0:
+\begin{align*}
+    \frac{\partial{\log{L(\theta|Y)}}}{\partial{\theta}}=0
+    \Rightarrow
+    -\frac{2N}{\theta} + \frac{1}{\theta^3}\sum_{i=1}^{N}y_i^2=0
+    \Rightarrow
+    -2N\theta^2 + \sum_{i=1}^{N}y_i^2=0
+    \Rightarrow
+    \hat{\theta}=\pm\sqrt{\frac{1}{2N}\sum_{i=1}^{N}y_i^2}
+\end{align*}

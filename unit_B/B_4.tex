@@ -1,0 +1,61 @@
+\Exercise[number={4}]
+In an experiment, the measured quantities \(\{x_n, n=1...N\}\) independent of
+each other, are described by a bi-exponential distribution (or Laplace
+distribution), with mean \(\mu\):
+\[
+    p(x|\mu) = \frac{1}{Z}\exp{(-|x-\mu|)}
+\]
+where \(Z\) is a normalization constant (to be determined).
+After having calculated \(Z\), find an expression for the maximum
+likelihood estimate of \(\mu\), given the measurements.
+
+\Answer[number={4}]
+Let's define the dataset \(X=\{x_n|n=1...N\}\).
+To calculate the normalization term \(Z\) it is necessary to
+integrate over the proper domain:
+\begin{align*}
+    \int_{-\infty}^{+\infty}p(x|\mu)\,dx = 1 \Rightarrow
+    \int_{-\infty}^{+\infty}\frac{1}{Z}e^{(-|x-\mu|)}\,dx
+    =
+    \int_{-\infty}^{\mu}\frac{1}{Z}e^{(x-\mu)}\,dx
+    +
+    \int_{\mu}^{+\infty}\frac{1}{Z}e^{(\mu-x)}\,dx
+    =
+    1
+\end{align*}
+\begin{align*}
+    \Rightarrow
+    \frac{1}{Z}\biggl[e^{x-\mu}\biggr]_{-\infty}^{\mu} - \frac{1}{Z}\biggl[e^{\mu-x}\biggr]_{\mu}^{+\infty}=1
+    \Rightarrow
+    Z = 1+1 = 2
+\end{align*}
+\\
+The maximum likelihood estimator for the parameter \(\mu\) can be found by
+simply computing the derivative of the log-likelihood and equating it to
+zero:
+\[
+    p(\mu|X)=\frac{p(X|\mu)p(\mu)}{p(X)} \propto p(X|\mu)=L(\mu|X)
+    =
+    \prod_{i=1}^{N}\frac{1}{2}e^{-|x_i-\mu|}
+\]
+\[
+    \Rightarrow
+    \log{L(\mu|X)}=-N\log{2}-\sum_{i=1}^{N}|x_i-\mu|
+\]
+\[
+    \Rightarrow
+    \frac{\partial{\log{L(\mu|X)}}}{\partial{\mu}}
+    =
+    \sum_{i=1}^{N}\frac{x_i-\mu}{|x_i-\mu|}
+    =
+    \sum_{i=1}^{N}
+    \begin{cases}
+        \begin{matrix}
+            1 && x_i>\mu \\ -1 && x_i<\mu
+        \end{matrix}
+    \end{cases}
+    =
+    0
+\]
+Therefore, the only value for the \(\mu\) parameter such that the
+computed derivative of the likelihood is null is \(\hat{\mu}=median(X)\).

@@ -1,0 +1,71 @@
+\Exercise[number={7}]
+We want to use a vector of measures \(x\) in \(\mathbf{R}^2\) to decide whether
+an individual is affected \((w_1)\) or not \((w_2)\) by a given pathology.
+The a priori probability that people of that age group and condition are
+affected by the disease is \(Pr(w_1)=p\). We want to design a Bayes classifier
+that attributes the correct class to each observed \(x\), while minimizing the
+conditional risk. We know that the \(p(x|w_i)\) both have a Gaussian
+distribution, with means \(\mu_i\) and equal variances \(I\sigma^2\).
+However, the cost of the decision is asymmetric, in the sense that the cost of
+the erroneous decision that the subject does not have the disease (false
+negative) is \(h\) times greater (\(h>1\)) than the cost of erroneously
+deciding that the subject has the disease (false positive). Correct decisions,
+on the other hand, have a zero cost. Find the optimal classifier and discuss
+how the decision regions vary as \(h\) varies.
+
+\Answer[number={7}]
+The two classes \(w_1\) and \(w_2\) can be denoted as \(P\) and \(N\)
+respectively. Thus, the costs can be estimated as
+\begin{align*}
+    \begin{matrix}
+        \lambda(P|P)=0 && \quad\quad\quad && \lambda(N|N)=0\\
+        \lambda(N|P)=h && \quad\quad\quad && \lambda(P|N)=1
+    \end{matrix}
+\end{align*}
+with \(h>1\).\\
+Then the risk to detect a patient \(x\) as positive (class \(w_1=P\)) is
+\begin{align*}
+    R(P|x)
+    =\cancel{\lambda(P|P)p(P|x)}+\lambda(P|N)p(N|x)
+    =p(N|x)
+\end{align*}
+and the risk of a negtive detection (class \(w_2=N\)) is
+\begin{align*}
+    R(N|x)
+    =\lambda(N|P)p(P|x)+\cancel{\lambda(N|N)p(N|x)}
+    =h\cdot p(P|x)
+\end{align*}
+Notice that a person \(x\) will be classified as not affected (class \(N\))
+if:
+\begin{align*}
+    R(N|x)<R(P|x)
+    \Rightarrow h\cdot p(P|x)<p(N|x)
+    \Rightarrow \frac{p(N|x)}{p(P|x)}>h
+\end{align*}
+If the logarithm is applied to both sides (monotonically increasing function):
+\begin{align*}
+    \log{\frac{p(N|x)}{p(P|x)}}>\log{h}
+    \Rightarrow z(x)>\log{h}
+\end{align*}
+Therefore, the decision boundary is given by \(z(x)=\log{h}\):
+\begin{align*}
+    z(x)
+    &=\log{\frac{p(N|x)}{p(P|x)}}
+    =\log{\frac{p(x|N)Pr(N)}{p(x|P)Pr(P)}}\\
+    &=\log{\frac{p(x|N)}{p(x|P)}} + \log{\frac{Pr(N)}{Pr(P)}}
+    =\log{p(x|N)}-\log{p(x|P)}+\log{\frac{1-p}{p}}\\
+    &=-\cancel{\log{\frac{2\pi}{2\pi}}}-\cancel{\frac{1}{2}\log{\frac{|\Sigma_1|}{|\Sigma_2|}}}-\frac{1}{2\sigma^2}\bigl[(x-\mu_1)^T(x-\mu_1)-(x-\mu_2)^T(x-\mu_2)\bigr]+\log{\frac{1-p}{p}}\\
+    &=-\frac{1}{2\sigma^2}\bigl[(\mu_1^T\mu_1-\mu_2^T\mu_2)-2(\mu_1-\mu_2)^Tx\bigr]+\log{\frac{1-p}{p}}\\
+    &=-\frac{1}{2\sigma^2}\bigl[(\mu_1-\mu_2)^T(\mu_1+\mu_2-2x)\bigr]+\log{\frac{1-p}{p}}\\
+    &=\frac{1}{\sigma^2}\biggl[(\mu_1-\mu_2)^T(x-\frac{\mu_1-\mu_2}{2})\biggr]+\log{\frac{1-p}{p}}
+\end{align*}
+\begin{align*}
+    z(x)=\log{h} \Longleftrightarrow \frac{1}{\sigma^2}\biggl[(\mu_1-\mu_2)^T(x-\frac{\mu_1-\mu_2}{2})\biggr]+\log{\frac{1-p}{p}}-\log{h}=0
+\end{align*}
+Let's highlight that
+\(\log{\frac{1-p}{p}}-\log{h}=\log{\frac{1-p}{h\cdot p}}\), meaning that
+the \(h\) term behaves in same way as the \(Pr(w_1)=Pr(P)=p\) bias.
+Therefore, the cost \(h\) will move the decision boundary far from the
+center of class \(w_1=P\), implying that classifying the person as negative
+\(N\) is more difficult (as the risk of incurring in the \(h\) cost is
+higher).

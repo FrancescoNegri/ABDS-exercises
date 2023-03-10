@@ -1,0 +1,29 @@
+\Exercise[number={11}]
+Consider a vector of measures \(x=[x_1,...,x_d]^T\) in which each
+component is statistically independent from the others and has binary
+values (1 or 0). Consider 2 classes, with a-priori probabilities \(Pr(w_1)\)
+and \(Pr(w_2)\). Let \(p(x_i=1|w_1)=p_i\) and \(p(x_i=1,w_2)=q_i\).
+Find an expression for \(p(x|w_1)\) and \(p(x|w_2)\).\\
+Finally, prove that the Bayesian decision rule is as follows:\\
+Decide \(w_1\) if \(z(x)\ge 0\), where
+\[
+    z(x)=\sum_{i=1}^{d}x_i\log{\frac{p_i}{q_i}}+\sum_{i=1}^{d}(1-x_i)\log{\frac{1-p_i}{1-q_i}}+\log{\frac{Pr(w_1)}{Pr(w_2)}}
+\]
+
+\Answer[number={11}]
+By recalling the Bernoulli distribution formula, the following likelihood
+probabilities can be written:
+\begin{align*}
+    p(x|w_1)=\prod_{i=1}^{d}p_i^{x_i}(1-p_i)^{1-x_i}
+    \quad\text{and}\quad
+    p(x|w_2)=\prod_{i=1}^{d}q_i^{x_i}(1-q_i)^{1-x^i}
+\end{align*}
+The decision criterion \(z(x)\) is computed below:
+\begin{align*}
+    z(x)
+    &=\log{\frac{p(x|w_1)}{p(x|w_2)}}+\log{\frac{Pr(w_1)}{Pr(w_2)}}
+    =\log{p(x|w_1)}-\log{p(x|w_2)}+\log{\frac{Pr(w_1)}{Pr(w_2)}}\\
+    &=\sum_{i=1}^{d}x_i\log{p_i}+\sum_{i=1}^{d}(1-x_i)\log{(1-p_i)}-\sum_{i=1}^{d}x_i\log{q_i}-\sum_{i=1}^{d}(1-x_i)\log{(1-q_i)}+\log{\frac{Pr(w_1)}{Pr(w_2)}}\\
+    &=\sum_{i=1}^{d}x_i\log{\frac{p_i}{q_i}}+\sum_{i=1}^{d}(1-x_i)\log{\frac{1-p_i}{1-q_i}}+\log{\frac{Pr(w_1)}{Pr(w_2)}}
+\end{align*}
+This is exactly the expected expression.

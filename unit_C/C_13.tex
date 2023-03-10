@@ -1,0 +1,117 @@
+\Exercise[number={13}]
+We intend to use a scalar measure \(x\) (scalar) to decide whether a
+given individual is affected (\(w_1\)) or not (\(w_2\)) by a certain
+pathology. Assume that the two classes have the same prior probability.
+We know that \(x\) can only have three values: \(x\in\{0,1,2\}\) and that
+for the two classes we respectively have:
+\begin{align*}
+    \begin{matrix}
+        p(x=1|w_1)=q_{11} \\ p(x=1|w_2)=q_{12}
+    \end{matrix}
+    \text{ and }
+    \begin{matrix}
+        p(x=2|w_1)=q_{21} \\ p(x=2|w_2)=q_{22}
+    \end{matrix}
+    \quad
+    \bigl[
+        \text{How to compute }
+        p(x=0|w_1)
+        \text{ and }
+        p(x=0|w_2)
+        \text{?}
+    \bigr]
+\end{align*}
+Design a Bayes classifier, which assigns the correct class to each
+observed \(x\). Depending on the measured value of \(x\): 0 or 1 or 2,
+specify (in terms of \(q_{11}\), \(q_{12}\), \(q_{21}\), \(q_{22}\)) the
+relevant decision criterion.
+
+\Answer[number={13}]
+First of all, let's easily derive the following probabilities:
+\begin{align*}
+    p(x=0|w_1)=1-(q_{11}+q_{21})
+    \quad\text{and}\quad
+    p(x=0|w_2)=1-(q_{12}+q_{22})
+\end{align*}
+Now, the multi-class Bernoulli distribution is to be written, but first
+it is necessary to compute the exponents. Let's denote
+\(p_2(x)=ax^2+bx+c\) and then:
+\begin{align*}
+    \begin{cases}
+        p_2(0)=0\\p_2(1)=1\\p_2(2)=0
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=0\\a+b+c=1\\4a+2b+c=0
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=0\\a=1-b\\4-4b+2b=0
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=0\\a=-1\\b=2
+    \end{cases}
+\end{align*}
+Therefore, the first exponent is given by \(p_2(x)=-x^2+2x=x(2-x)\).
+\begin{align*}
+    \begin{cases}
+        p_2(0)=0\\p_2(1)=0\\p_2(2)=1
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=0\\a+b+c=0\\4a+2b+c=1
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=0\\a=-b\\-4b+2b=1
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=0\\a=\frac{1}{2}\\b=-\frac{1}{2}
+    \end{cases}
+\end{align*}
+The second exponent is \(p_2(x)=\frac{1}{2}x^2-\frac{1}{2}x=\frac{x}{2}(x-1)\).
+\begin{align*}
+    \begin{cases}
+        p_2(0)=1\\p_2(1)=0\\p_2(2)=0
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=1\\a+b+c=0\\4a+2b+c=0
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=1\\a=-1-b\\-4-4b+2b+1=0
+    \end{cases}
+    \Rightarrow
+    \begin{cases}
+        c=1\\a=\frac{1}{2}\\b=-\frac{3}{2}
+    \end{cases}
+\end{align*}
+Lastly, the third exponent is \(p_2(x)=\frac{1}{2}x^2-\frac{3}{2}x+1=\frac{1}{2}(x-1)(x-2)\).\\
+Then, the multi-class Bernoulli distributions can be written as:
+\begin{align*}
+    p(x|w_1)
+    &=q_{11}^{x(2-x)}\cdot q_{21}^{\frac{x}{2}(x-1)}\cdot\bigl[1-(q_{11}+q_{21})\bigr]^{\frac{1}{2}(1-x)(2-x)}\\
+    p(x|w_2)
+    &=q_{12}^{x(2-x)}\cdot q_{22}^{\frac{x}{2}(x-1)}\cdot\bigl[1-(q_{12}+q_{22})\bigr]^{\frac{1}{2}(1-x)(2-x)}
+\end{align*}
+Now it is easy to write down the decision criterion:
+\begin{align*}
+    z(x)
+    &=\log{\frac{p(x|w_1)}{p(x|w_2)}}+\cancel{\log{\frac{Pr(w_1)}{Pr(w_2)}}}
+    \log{p(x|w_1)}-\log{p(x|w_2)}\\
+    &=x(2-x)\log{q_{11}}+\frac{x}{2}(x-1)\log{q_{21}}+\frac{1}{2}(1-x)(2-x)\log{\bigl[1-(q_{11}+q_{21})\bigr]}+\\
+    &\quad-x(2-x)\log{q_{12}}-\frac{x}{2}(x-1)\log{q_{22}}-\frac{1}{2}(1-x)(2-x)\log{\bigl[1-(q_{12}+q_{22})\bigr]}\\
+    &=x(2-x)\log{\frac{q_{11}}{q_{12}}}+\frac{x}{2}(x-1)\log{\frac{q_{21}}{q_{22}}}+\frac{1}{2}(1-x)(2-x)\log{\frac{1-(q_{11}+q_{21})}{1-(q_{12}+q_{22})}}
+\end{align*}
+Notice that if \(w_1\) is to be chosen, then \(z(x)>0\). Three cases
+are possible:
+\begin{enumerate}
+    \item\quad \(x=1\Rightarrow z(x)=\log{\frac{q_{11}}{q_{12}}}>0\Longleftrightarrow q_{11}>q_{12}\)
+    \item\quad \(x=2\Rightarrow z(x)=\log{\frac{q_{21}}{q_{22}}}>0\Longleftrightarrow q_{21}>q_{22}\)
+    \item\quad \(x=0\Rightarrow z(x)=\log{\frac{1-(q_{11}+q_{21})}{1-(q_{12}+q_{22})}}>0\Longleftrightarrow \cancel{1}-(q_{11}+q_{21})>\cancel{1}-(q_{12}+q_{22})\Rightarrow q_{11}+q_{21}<q_{12}+q_{22}\)
+\end{enumerate}
+On the opposite, the \(w_2\) class is selected when \(z(x)<0\), thus
+all the inequalities are inverted.

@@ -1,0 +1,50 @@
+\Exercise[number={14}]
+A scalar random variable \(x\) is described by a mixture of two Gaussians with the
+same variance \(\sigma^2\) and different means, \(\mu_1\) and \(\mu_2\):
+\[
+    p(x|\mu_1,\mu_2,\sigma^2)=\sum_{i=1}^2\pi_i\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2}(x-\mu_i)^2}
+\]
+and where \(\pi_1=\pi_2=0.5\). Consider a dataset \(\{x_n,n=1,...,N\}\) indipendently
+drawn from this distribution. Let \(S_n\) be the (unknown) class of the \(n\)-th
+sample, \(x_n\) (i.e. the "hidden" source which actually generated \(x_n\)).
+Prove that the posterior probabilities of class \(S_n\), given \(x_n\), have the
+following form:
+\[
+    Pr(S_n=1|x_n,\mu_1,\mu_2,\sigma^2)=\frac{1}{1+e^{-(w_0+wx_n)}}
+    \quad\text{and}\quad
+    Pr(S_n=2|x_n,\mu_1,\mu_2,\sigma^2)=\frac{1}{1+e^{+(w_0+wx_n)}}
+\]
+
+\Answer[number={14}]
+Let's recall the general formula for the responsibility of the Gaussian component
+\(k\) for a generic data point \(x_n\):
+\begin{align*}
+    r_k=Pr(S_n=k|x_n,\mu,\Sigma)
+    =\frac{\pi_k p(x_n|\mu_k,\Sigma_k)}{\sum_{i=1}^K\pi_i p(x_n|\mu_i,\Sigma_i)}
+\end{align*}
+For the given case, the responsibility for cluster 1 is:
+\begin{align*}
+    Pr(S_n=1|x_n,\mu_1,\mu_2,\sigma^2)
+    &=\frac{\pi_1 p(x_n|\mu_1,\sigma^2)}{\sum_{i=1}^2\pi_i p(x_n|\mu_i,\sigma^2)}
+    =\frac{\cancel{\frac{1}{2}\frac{1}{\sqrt{2\pi\sigma^2}}}e^{-\frac{1}{2\sigma^2}(x_n-\mu_1)^2}}{\cancel{\frac{1}{2}\frac{1}{\sqrt{2\pi\sigma^2}}}e^{-\frac{1}{2\sigma^2}(x_n-\mu_1)^2}+\cancel{\frac{1}{2}\frac{1}{\sqrt{2\pi\sigma^2}}}e^{-\frac{1}{2\sigma^2}(x_n-\mu_2)^2}}\\
+    &=\frac{1}{1+e^{-\frac{1}{2\sigma^2}(x_n-\mu_2)^2+\frac{1}{2\sigma^2}(x_n-\mu_1)^2}}
+    =\frac{1}{1+e^{-\frac{1}{2\sigma^2}(\cancel{x_n^2}+\mu_2^2-2x_n\mu_2-\cancel{x_n^2}-\mu_1^2+2x_n\mu_1)}}\\
+    &=\frac{1}{1+e^{-\bigl(\frac{\mu_2^2-\mu_1^2}{2\sigma^2}+\frac{\mu_1-\mu_2}{\sigma^2}x_n\bigr)}}
+    =\frac{1}{1+e^{-(w_0+wx_n)}}
+\end{align*}
+Similarly, the responsibility for cluster 2 is:
+\begin{align*}
+    Pr(S_n=2|x_n,\mu_1,\mu_2,\sigma^2)
+    &=\frac{\pi_2 p(x_n|\mu_2,\sigma^2)}{\sum_{i=1}^2\pi_i p(x_n|\mu_i,\sigma^2)}
+    =\frac{\cancel{\frac{1}{2}\frac{1}{\sqrt{2\pi\sigma^2}}}e^{-\frac{1}{2\sigma^2}(x_n-\mu_2)^2}}{\cancel{\frac{1}{2}\frac{1}{\sqrt{2\pi\sigma^2}}}e^{-\frac{1}{2\sigma^2}(x_n-\mu_1)^2}+\cancel{\frac{1}{2}\frac{1}{\sqrt{2\pi\sigma^2}}}e^{-\frac{1}{2\sigma^2}(x_n-\mu_2)^2}}\\
+    &=\frac{1}{1+e^{-\frac{1}{2\sigma^2}(x_n-\mu_1)^2+\frac{1}{2\sigma^2}(x_n-\mu_2)^2}}
+    =\frac{1}{1+e^{-\frac{1}{2\sigma^2}(\cancel{x_n^2}+\mu_1^2-2x_n\mu_1-\cancel{x_n^2}-\mu_2^2+2x_n\mu_2)}}\\
+    &=\frac{1}{1+e^{+\bigl(\frac{\mu_2^2-\mu_1^2}{2\sigma^2}+\frac{\mu_1-\mu_2}{\sigma^2}x_n\bigr)}}
+    =\frac{1}{1+e^{+(w_0+wx_n)}}
+\end{align*}
+Notice that:
+\begin{align*}
+    w_0=\frac{\mu_2^2-\mu_1^2}{2\sigma^2}
+    \quad\text{and}\quad
+    w=\frac{\mu_1-\mu_2}{\sigma^2}
+\end{align*}

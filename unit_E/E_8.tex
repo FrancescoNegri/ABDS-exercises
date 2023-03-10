@@ -1,0 +1,111 @@
+\Exercise[number={8}]
+Consider the following linear dynamical system:
+\begin{align*}
+    \begin{cases}
+        x_{i+1}=A\cdot x_i + w_i \\ y_i=C\cdot x_i + v_i
+    \end{cases}
+\end{align*}
+where \(p(w_i)=\mathcal{N}(w_i|0,Q)\) and \(p(v_i)=\mathcal{N}(v_i|0,R)\).\\
+Let \(A=I_2\) (identity 2x2 matrix), \(C=[1\quad1]\), \(R=\sigma_1^2\),
+\(Q=\sigma^2I_2\).\\
+Also let (initial conditions): \(P_0^+=I_2\) and \(x_0^+=0\).
+\begin{itemize}
+    \item\quad a. Calculate \(K_1\) (Kalman gain at time \(i=1\)).
+    \item\quad b. Calculate \(x_1^+\) (posterior state estimate at
+    time \(i=1\)).
+\end{itemize}
+
+\Answer[number={8}]
+a. Let's recall the main formulas for the Kalman Filter:
+\begin{align*}
+    \begin{matrix}
+        {} && K_t=\hat{P}_t^-C^T\bigl(C\hat{P}_t^-C^T+R\bigr)^{-1} && {}\\
+        \hat{x}_t^-=A\hat{x}_{t-1}^+ && {} && \hat{x}_t^+=\hat{x}_t^-+K_t(y_t-C\hat{x}_t^-)\\
+        \hat{P}_t^-=A\hat{P}_{t-1}^+A^T+Q && {} && \hat{P}_t^+=\hat{P}_t^--CK_t\hat{P}_t^-
+    \end{matrix}
+\end{align*}
+Now the variance of the prior error can be computed:
+\begin{align*}
+    \hat{P}_1^-
+    =A\hat{P}_{0}^+A^T+Q
+    =I_2\cdot I_2\cdot I_2 + \sigma^2I_2
+    =I_2+\sigma^2I_2
+    =
+    \begin{bmatrix}
+        \sigma^2+1&&0\\0&&\sigma^2+1
+    \end{bmatrix}
+\end{align*}
+Then, the Kalman gain is:
+\begin{align*}
+    K_1
+    =\hat{P}_1^-C^T\bigl(C\hat{P}_1^-C^T+R\bigr)^{-1}
+    &=
+    \begin{bmatrix}
+        \sigma^2+1&&0\\0&&\sigma^2+1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1\\1
+    \end{bmatrix}
+    \Biggl(
+        \begin{bmatrix}
+            1&&1
+        \end{bmatrix}
+        \begin{bmatrix}
+            \sigma^2+1&&0\\0&&\sigma^2+1
+        \end{bmatrix}
+        \begin{bmatrix}
+            1\\1
+        \end{bmatrix}
+        +\sigma_1^2
+    \Biggr)^{-1}\\
+    &=
+    \begin{bmatrix}
+        \sigma^2+1\\\sigma^2+1
+    \end{bmatrix}
+    \Biggl(
+        \begin{bmatrix}
+            1&&1
+        \end{bmatrix}
+        \begin{bmatrix}
+            \sigma^2+1\\\sigma^2+1
+        \end{bmatrix}
+        +\sigma_1^2
+    \Biggr)^{-1}\\
+    &=
+    \begin{bmatrix}
+        \sigma^2+1\\\sigma^2+1
+    \end{bmatrix}
+    \bigl(2\sigma^2+2+\sigma_1^2\bigr)^{-1}
+    =
+    \frac{1}{2\sigma^2+2+\sigma_1^2}
+    \begin{bmatrix}
+        \sigma^2+1\\\sigma^2+1
+    \end{bmatrix}
+\end{align*}
+b. The prior state estimate is to be computed as follow:
+\begin{align*}
+    \hat{x}_1^-
+    =A\hat{x}_0^+
+    =
+    \begin{bmatrix}
+        1&&1
+    \end{bmatrix}
+    \begin{bmatrix}
+        0\\0
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        0\\0
+    \end{bmatrix}
+\end{align*}
+Therefore, the posterior state estimate at \(t=1\) is expressed as:
+\begin{align*}
+    \hat{x}_1^+
+    =\cancel{\hat{x}_1^-}+K_1(y_1-\cancel{C\hat{x}_1^-})
+    =K_1y_1
+    =
+    \frac{y_1}{2\sigma^2+2+\sigma_1^2}
+    \begin{bmatrix}
+        \sigma^2+1\\\sigma^2+1
+    \end{bmatrix}
+\end{align*}
